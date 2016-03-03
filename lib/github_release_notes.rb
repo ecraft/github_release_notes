@@ -8,6 +8,7 @@ require 'active_support/core_ext/hash/slice'
 require 'active_support/core_ext/object/blank'
 require 'rake/clean'
 
+require 'github_release_notes/configuration'
 require 'github_release_notes/fetcher'
 require 'github_release_notes/formatter'
 
