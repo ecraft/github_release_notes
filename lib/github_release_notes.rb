@@ -1,6 +1,7 @@
 require 'github_release_notes/version'
 
 require 'erb'
+require 'json'
 require 'ansi/code'
 require 'octokit'
 require 'kramdown'

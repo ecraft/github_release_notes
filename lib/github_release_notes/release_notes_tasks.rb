@@ -4,13 +4,14 @@ module GithubReleaseNotes
 
     def install_tasks
       namespace :github_release_notes do
+        require 'github_release_notes'
         @target_html_file = 'releases.html'
         @target_markdown_file = 'releases.md'
         CLEAN.include [@target_html_file, @target_markdown_file]
 
         desc 'Release Notes to Markdown and HTML'
         task :build do
-          puts ANSI.green { 'Generating GitHub Release Notes...' }
+          puts ::ANSI.green { 'Generating GitHub Release Notes...' }
 
           config = GithubReleaseNotes::Configuration.new({
             token: ENV['RELEASE_NOTES_GITHUB_TOKEN'],
@@ -19,6 +20,7 @@ module GithubReleaseNotes
             epilogue_template_data: {},
             html_output: @target_html_file,
             markdown_output: @target_markdown_file,
+            templates_path: GithubReleaseNotes::Formatter::DEFAULT_TEMPLATE_PATH,
             skipped_release_prefixes: ['il/', 'tst_']
           })
 
@@ -26,9 +28,9 @@ module GithubReleaseNotes
           releases = all_releases.reject do |r|
             config.skipped_release_prefixes.any? { |prefix| r[:tag_name].start_with?(prefix) }
           end
+          #releases = yield releases if block_given?
 
-          formatter = GithubReleaseNotes::Formatter.new(releases, config)
-          formatter.call
+          GithubReleaseNotes::Formatter.new(releases, config).call
 
           sh "open #{@target_html_file}"
 

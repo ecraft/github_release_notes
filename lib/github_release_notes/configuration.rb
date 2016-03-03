@@ -6,7 +6,7 @@ module GithubReleaseNotes
     end
 
     def repo_slug
-      fetch(:repo_slug) { raise 'Missing required config option :repo_slug!' }
+      fetch(:repo_slug) { raise ANSI.red { 'Missing required config option :repo_slug!' } }
     end
 
     def preamble_template_data
@@ -18,11 +18,15 @@ module GithubReleaseNotes
     end
 
     def html_output
-      fetch(:epilogue_template_data)
+      fetch(:html_output)
     end
 
     def markdown_output
       fetch(:markdown_output)
+    end
+
+    def templates_path
+      fetch(:templates_path) { raise ANSI.red { 'Missing required config option :templates_path!' } }
     end
 
     def skipped_release_prefixes

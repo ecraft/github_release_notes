@@ -22,7 +22,7 @@ module GithubReleaseNotes
     def fetch_and_store
       if File.exist?(CACHE_FILE_NAME)
         puts ANSI.yellow { "Re-reading cached file #{CACHE_FILE_NAME}" }
-        JSON.parse(File.read(CACHE_FILE_NAME), symbolize_names: true)
+        ::JSON.parse(File.read(CACHE_FILE_NAME), symbolize_names: true)
       else
         run.tap do |result|
           raise "Bad releases data; #{result}" if result.any?(&:nil?)
