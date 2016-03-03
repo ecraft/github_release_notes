@@ -22,7 +22,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Token
+
+Add an environment variable `RELEASE_NOTES_GITHUB_TOKEN` with a GitHub token with repo access.
+
+Read more at https://github.com/skywinder/github-changelog-generator#github-token
 
 ## Development
 
