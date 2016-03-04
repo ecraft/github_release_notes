@@ -39,8 +39,8 @@ module GithubReleaseNotes
       fetch(:skipped_release_prefixes)
     end
 
-    def verbose
-      fetch(:verbose)
+    def logger
+      fetch(:logger)
     end
   end
 end

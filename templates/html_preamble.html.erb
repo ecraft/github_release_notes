@@ -1,29 +1,18 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title><%= data[:title] %></title>
-  <meta charset="utf-8">
-  <style type="text/css">
-    p, li {
-      /* Trebuchet-based sans serif stack */
-      font-family: "Segoe UI", Candara,
-      "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans",
-      "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      /* Helvetica/Arial-based sans serif stack */
-      font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro",
-      Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva,
-      "Helvetica Neue", Helvetica, Arial, sans-serif;
-    }
-    body { font-size: 100%; }
-    h1 { font-size: 2.25em;  /* 16x2.25=36 */ }
-    h2 { font-size: 1.5em;   /* 16x1.5=24 */ }
-    h3 { font-size: 1.125em; /* 16x1.125=18 */ }
-    h4 { font-size: 0.875em; /* 16x0.875=14 */ }
-    p  { font-size: 0.75em;  /* 16x0.75=12 */ }
-  </style>
-</head>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title><%= data[:title] %></title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <style type="text/css">
+    </style>
+  </head>
 <body>
 
-<h1><%= data[:title] %></h1>
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-6">
+    <h1><%= data[:title] %></h1>

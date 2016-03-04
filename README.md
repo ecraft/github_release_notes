@@ -45,7 +45,8 @@ GithubReleaseNotes::RakeTask.new(:release_notes) do |config|
   config.markdown_output = 'release_notes.md'
   config.templates_path = 'templatefiles/release_notes_templates'
   config.token = ENV['RELEASE_NOTES_GITHUB_TOKEN']
-  config.verbose = true
+  config.log_level = Logger::INFO
+  config.logger = Logger.new('some_output.log')
 end
 ```
 
