@@ -28,6 +28,25 @@ Add an environment variable `RELEASE_NOTES_GITHUB_TOKEN` with a GitHub token wit
 
 Read more at https://github.com/skywinder/github-changelog-generator#github-token
 
+### Configuration
+
+Name and configure a Rake task which suits you.
+
+```
+require 'github_release_notes/rake_task'
+
+GithubReleaseNotes::RakeTask.new(:release_notes) do |config|
+  config.repo_slug = 'olleolleolle/github_release_notes'
+  config.skipped_release_prefixes = %w(broken012/ tst_)
+
+  config.html_output = 'release_notes.html'
+  config.markdown_output = 'release_notes.md'
+  config.templates_path = 'templatefiles/release_notes_templates'
+  config.token = ENV['RELEASE_NOTES_GITHUB_TOKEN']
+  config.verbose = true
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
