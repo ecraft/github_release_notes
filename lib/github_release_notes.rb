@@ -15,4 +15,3 @@ end
 require 'github_release_notes/configuration'
 require 'github_release_notes/fetcher'
 require 'github_release_notes/formatter'
-
