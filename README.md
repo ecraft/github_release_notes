@@ -47,6 +47,9 @@ GithubReleaseNotes::RakeTask.new(:release_notes) do |config|
   config.token = ENV['RELEASE_NOTES_GITHUB_TOKEN']
   config.log_level = Logger::INFO
   config.logger = Logger.new('some_output.log')
+  config.filter_lambda = ->(rs) {
+    rs.select {|r| r[:tag_name] =~ /v/ }
+  }
 end
 ```
 

@@ -21,6 +21,7 @@ module GithubReleaseNotes
       skipped_release_prefixes
       logger
       log_level
+      filter_lambda
     ).freeze
 
     OPTIONS.each do |o|
@@ -73,7 +74,8 @@ module GithubReleaseNotes
           markdown_output: @target_markdown_file,
           templates_path: GithubReleaseNotes::Formatter::DEFAULT_TEMPLATE_PATH,
           skipped_release_prefixes: [],
-          logger: default_logger
+          logger: default_logger,
+          filter_lambda: ->(rs) { rs }
         }
 
         # Overrides from the Rake config block from the user
@@ -93,6 +95,7 @@ module GithubReleaseNotes
         releases = all_releases.reject do |r|
           config.skipped_release_prefixes.any? { |prefix| r[:tag_name].start_with?(prefix) }
         end
+        releases = filter_lambda.call(releases)
 
         GithubReleaseNotes::Formatter.new(releases, config).call
 
