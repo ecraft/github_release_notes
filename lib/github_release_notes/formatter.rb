@@ -1,6 +1,4 @@
 module GithubReleaseNotes
-  Error = Class.new(StandardError)
-
   class Formatter
     DEFAULT_TEMPLATE_PATH = File.join(File.dirname(__FILE__), '../../templates')
     attr_reader :releases, :rendered_markdown, :rendered_html,
