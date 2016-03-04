@@ -12,7 +12,7 @@ module GithubReleaseNotes
     end
 
     def validate_options!
-      raise ANSI.red { 'Quitting: missing ENV var RELEASE_NOTES_GITHUB_TOKEN. See README.md' } unless @token.present?
+      raise Error, ANSI.red { 'Quitting: missing ENV var RELEASE_NOTES_GITHUB_TOKEN. See README.md' } unless @token.present?
     end
 
     def run
