@@ -32,6 +32,9 @@ module GithubReleaseNotes
     def skipped_release_prefixes
       fetch(:skipped_release_prefixes)
     end
+
+    def verbose
+      fetch(:verbose)
+    end
   end
 end
-

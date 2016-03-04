@@ -2,9 +2,10 @@ module GithubReleaseNotes
   class Fetcher
     CACHE_FILE_NAME = '.github_releases.json'.freeze
 
-    def initialize(token, repo_slug)
-      @token = token
-      @repo_slug = repo_slug
+    def initialize(config)
+      @token = config.token
+      @repo_slug = config.repo_slug
+      @verbose = config.verbose
       validate_options!
     end
 
@@ -13,7 +14,7 @@ module GithubReleaseNotes
     end
 
     def run
-      puts ANSI.green { 'Fetching Releases from Github...' }
+      puts ANSI.green { 'Fetching Releases from Github...' } if @verbose
       configure_github_client
       fetched_content = fetch_releases
       curate_content(fetched_content)
@@ -21,7 +22,7 @@ module GithubReleaseNotes
 
     def fetch_and_store
       if File.exist?(CACHE_FILE_NAME)
-        puts ANSI.yellow { "Re-reading cached file #{CACHE_FILE_NAME}" }
+        puts ANSI.yellow { "Re-reading cached file #{CACHE_FILE_NAME}" } if @verbose
         ::JSON.parse(File.read(CACHE_FILE_NAME), symbolize_names: true)
       else
         run.tap do |result|

@@ -1,4 +1,6 @@
 module GithubReleaseNotes
+  Error = Class.new(StandardError)
+
   class Formatter
     DEFAULT_TEMPLATE_PATH = File.join(File.dirname(__FILE__), '../../templates')
     attr_reader :releases, :rendered_markdown, :rendered_html,
@@ -19,7 +21,7 @@ module GithubReleaseNotes
       can_write_output = [config.html_output, config.markdown_output].any? do |path|
         configured_to_write_to(path)
       end
-      raise ArgumentError, ANSI.red { ':html_output or :markdown_output must be set to writable paths' } unless can_write_output
+      raise Error, ANSI.red { ':html_output or :markdown_output must be set to writable paths' } unless can_write_output
     end
 
     def call
@@ -30,18 +32,18 @@ module GithubReleaseNotes
         File.open(config.markdown_output, 'w') do |f|
           f.write(rendered_markdown)
         end
-        puts ANSI.green { "Generated #{config.markdown_output}" }
+        puts ANSI.green { "Generated #{config.markdown_output}" } if config.verbose
       else
-        puts "Skipping Markdown output. #{config.markdown_output}"
+        puts "Skipping Markdown output. #{config.markdown_output}" if config.verbose
       end
 
       if configured_to_write_to(config.html_output)
         File.open(config.html_output, 'w') do |f|
           f.write(full_html)
         end
-        puts ANSI.green { "Generated #{config.html_output}" }
+        puts ANSI.green { "Generated #{config.html_output}" } if config.verbose
       else
-        puts "Skipping HTML output. #{config.html_output}"
+        puts "Skipping HTML output. #{config.html_output}" if config.verbose
       end
     end
 
@@ -99,8 +101,7 @@ module GithubReleaseNotes
     end
 
     def templates_path
-      Pathname DEFAULT_TEMPLATE_PATH
-      #Pathname(config.templates_path)
+      Pathname(config.templates_path)
     end
 
     def release_template_path
