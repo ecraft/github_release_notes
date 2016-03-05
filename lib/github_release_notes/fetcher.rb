@@ -2,19 +2,21 @@ module GithubReleaseNotes
   class Fetcher
     CACHE_FILE_NAME = '.github_releases.json'.freeze
 
+    attr_reader :logger
+
     def initialize(config)
       @token = config.token
       @repo_slug = config.repo_slug
-      @verbose = config.verbose
+      @logger = config.logger
       validate_options!
     end
 
     def validate_options!
-      raise ANSI.red { 'Quitting: missing ENV var RELEASE_NOTES_GITHUB_TOKEN. See README.md' } unless @token.present?
+      raise Error, ANSI.red { 'Quitting: missing ENV var RELEASE_NOTES_GITHUB_TOKEN. See README.md' } unless @token.present?
     end
 
     def run
-      puts ANSI.green { 'Fetching Releases from Github...' } if @verbose
+      logger.info { 'Fetching Releases from Github...' }
       configure_github_client
       fetched_content = fetch_releases
       curate_content(fetched_content)
@@ -22,7 +24,7 @@ module GithubReleaseNotes
 
     def fetch_and_store
       if File.exist?(CACHE_FILE_NAME)
-        puts ANSI.yellow { "Re-reading cached file #{CACHE_FILE_NAME}" } if @verbose
+        logger.debug { "Re-reading cached file #{CACHE_FILE_NAME}" }
         ::JSON.parse(File.read(CACHE_FILE_NAME), symbolize_names: true)
       else
         run.tap do |result|

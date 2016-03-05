@@ -3,7 +3,7 @@ module GithubReleaseNotes
     DEFAULT_TEMPLATE_PATH = File.join(File.dirname(__FILE__), '../../templates')
     attr_reader :releases, :rendered_markdown, :rendered_html,
                 :preamble, :epilogue, :config,
-                :full_html
+                :full_html, :logger
 
     # @param releases [Array<Hash>]
     # @param config [GithubReleaseNotes::Configuration]
@@ -11,15 +11,19 @@ module GithubReleaseNotes
       @releases = releases
 
       @config = config
-
+      @logger = config.logger
       validate_options!
     end
 
     def validate_options!
-      can_write_output = [config.html_output, config.markdown_output].any? do |path|
+      can_write_output = [config.html_output,
+                          config.markdown_output].any? do |path|
         configured_to_write_to(path)
       end
-      raise Error, ANSI.red { ':html_output or :markdown_output must be set to writable paths' } unless can_write_output
+
+      raise Error, ANSI.red {
+        ':html_output or :markdown_output must be set to writable paths'
+      } unless can_write_output
     end
 
     def call
@@ -30,18 +34,18 @@ module GithubReleaseNotes
         File.open(config.markdown_output, 'w') do |f|
           f.write(rendered_markdown)
         end
-        puts ANSI.green { "Generated #{config.markdown_output}" } if config.verbose
+        logger.info { "Generated #{config.markdown_output}" }
       else
-        puts "Skipping Markdown output. #{config.markdown_output}" if config.verbose
+        logger.debug "Skipping Markdown output. #{config.markdown_output}"
       end
 
       if configured_to_write_to(config.html_output)
         File.open(config.html_output, 'w') do |f|
           f.write(full_html)
         end
-        puts ANSI.green { "Generated #{config.html_output}" } if config.verbose
+        logger.info { "Generated #{config.html_output}" }
       else
-        puts "Skipping HTML output. #{config.html_output}" if config.verbose
+        logger.debug "Skipping HTML output. #{config.html_output}"
       end
     end
 

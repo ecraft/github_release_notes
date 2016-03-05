@@ -8,3 +8,4 @@
 /spec/reports/
 /tmp/
 .github_releases.json
+coverage
