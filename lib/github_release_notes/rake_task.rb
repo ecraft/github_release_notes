@@ -90,7 +90,14 @@ module GithubReleaseNotes
         config = GithubReleaseNotes::Configuration.new(cfg)
         logger = config.logger
         logger.info { 'Generating GitHub Release Notes...' }
-        logger.level = cfg[:log_level] || Logger::INFO
+
+        if cfg[:log_level]
+          logger.level = cfg[:log_level]
+        elsif cfg[:verbose]
+          logger.level = Logger::DEBUG
+        else
+          logger.level = Logger::INFO
+        end
 
         all_releases = GithubReleaseNotes::Fetcher.new(config).fetch_and_store
         releases = all_releases.reject do |r|
