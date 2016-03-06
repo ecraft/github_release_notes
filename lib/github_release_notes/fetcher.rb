@@ -42,7 +42,7 @@ module GithubReleaseNotes
     def run
       logger.info { 'Fetching Releases from Github...' }
       configure_github_client
-      fetch_releases
+      fetch_releases.map { |r|  r.to_h }
     end
 
     def validate_options!

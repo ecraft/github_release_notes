@@ -4,7 +4,7 @@ module GithubReleaseNotes
   # Data class for one GitHub Release data item from the GitHub API v3.
   class Release < SimpleDelegator
     def self.wrap_many(releases)
-      releases.map { |r| new(r.to_h) }
+      releases.map { |r| new(r) }
     end
 
     def initialize(release)
@@ -31,8 +31,9 @@ module GithubReleaseNotes
       self[:markdown_body]
     end
 
+    # Note: published_at is a Time
     def published_at_date
-      self[:published_at].split.first
+      self[:published_at].to_s.split.first
     end
 
     def target_commitish
