@@ -58,7 +58,7 @@ module GithubReleaseNotes
     end
 
     def markdown_to_html(body)
-      Kramdown::Document.new(body, {}).to_html
+      Kramdown::Document.new(body, input: 'GFM').to_html
     end
   end
 end

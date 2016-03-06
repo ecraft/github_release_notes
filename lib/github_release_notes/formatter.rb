@@ -73,7 +73,7 @@ module GithubReleaseNotes
     end
 
     def format_releases_in_html
-      @rendered_html = Kramdown::Document.new(rendered_markdown, {}).to_html
+      @rendered_html = Kramdown::Document.new(rendered_markdown, input: 'GFM').to_html
     end
 
     def html_preamble
