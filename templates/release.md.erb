@@ -1,9 +1,9 @@
 
-## <%= process_name(release) %> <small><%= release[:published_at].split.first %></small>
+## <%= release.name %> <small><%= release.published_at_date %></small>
 
-<%= process_body release[:body] %>
+<%= release.markdown_body %>
 
-[Private link to release](<%= release[:html_url]%>).
+[Private link to release](<%= release.html_url %>).
 
-Part of Release Series: <%= release[:target_commitish] %>
+Part of Release Series: <%= release.target_commitish %>
 

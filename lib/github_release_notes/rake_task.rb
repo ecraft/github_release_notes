@@ -7,6 +7,7 @@ module GithubReleaseNotes
   class RakeTask < ::Rake::TaskLib
     include ::Rake::DSL if defined?(::Rake::DSL)
 
+    # Rake task configuration accessors available in the block
     OPTIONS = %w(
       verbose
       target_html_file
@@ -95,7 +96,7 @@ module GithubReleaseNotes
         releases = all_releases.reject do |r|
           config.skipped_release_prefixes.any? { |prefix| r[:tag_name].start_with?(prefix) }
         end
-        releases = filter_lambda.call(releases)
+        releases = filter_lambda.call(releases) if filter_lambda.respond_to?(:call)
 
         GithubReleaseNotes::Formatter.new(releases, config).call
 
