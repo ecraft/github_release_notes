@@ -1,0 +1,11 @@
+<h2><%= release.name %> <small><%= release.published_at_date %></small></h2>
+
+<%= release.html_body %>
+
+<p>
+<a href="<%= release.html_url%>">Private link to release</a>
+</p>
+
+<p>Part of Release Series: <%= release.target_commitish %>
+</p>
+

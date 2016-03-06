@@ -76,18 +76,6 @@ module GithubReleaseNotes
       @rendered_html = Kramdown::Document.new(rendered_markdown, {}).to_html
     end
 
-    def process_name(release)
-      if release[:name].empty?
-        '_untitled_'
-      else
-        release[:name]
-      end
-    end
-
-    def process_body(body)
-      body.gsub('\r\n', "\r\n").gsub(/^[\-\*] (#)?(\d+)/, '- \#\2')
-    end
-
     def html_preamble
       data = config.preamble_template_data
       @preamble = ERB.new(File.read(preamble_template_path)).result(binding)

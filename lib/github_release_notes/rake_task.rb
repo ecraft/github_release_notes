@@ -7,6 +7,7 @@ module GithubReleaseNotes
   class RakeTask < ::Rake::TaskLib
     include ::Rake::DSL if defined?(::Rake::DSL)
 
+    # Rake task configuration accessors available in the block
     OPTIONS = %w(
       verbose
       target_html_file
@@ -49,16 +50,16 @@ module GithubReleaseNotes
 
       task @name do
         colors = {
-          "FATAL" => :red,
-          "ERROR" => :red,
-          "WARN"  => :yellow,
-          "INFO"  => :green,
-          "DEBUG" => :white,
+          'FATAL' => :red,
+          'ERROR' => :red,
+          'WARN'  => :yellow,
+          'INFO'  => :green,
+          'DEBUG' => :white
         }
         default_logger = Logger.new($stdout)
-        default_logger.formatter = ->(severity, datetime, progname, message) {
+        default_logger.formatter = lambda { |severity, _datetime, _progname, message|
           if $stdout.tty?
-            colorizer = $stdout.tty? ? colors[severity] : ->(s){s}
+            colorizer = $stdout.tty? ? colors[severity] : ->(s) { s }
             ANSI.send(colors[severity]) { "#{severity}: " } + "#{message}\n"
           else
             "#{severity}: #{message}\n"
@@ -89,13 +90,20 @@ module GithubReleaseNotes
         config = GithubReleaseNotes::Configuration.new(cfg)
         logger = config.logger
         logger.info { 'Generating GitHub Release Notes...' }
-        logger.level = cfg[:log_level] || Logger::INFO
+
+        logger.level = if cfg[:log_level]
+                         cfg[:log_level]
+                       elsif cfg[:verbose]
+                         Logger::DEBUG
+                       else
+                         Logger::INFO
+                       end
 
         all_releases = GithubReleaseNotes::Fetcher.new(config).fetch_and_store
         releases = all_releases.reject do |r|
           config.skipped_release_prefixes.any? { |prefix| r[:tag_name].start_with?(prefix) }
         end
-        releases = filter_lambda.call(releases)
+        releases = filter_lambda.call(releases) if filter_lambda.respond_to?(:call)
 
         GithubReleaseNotes::Formatter.new(releases, config).call
 
