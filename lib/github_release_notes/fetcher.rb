@@ -14,9 +14,9 @@ module GithubReleaseNotes
     # Returns release notes data, either from GitHub or a cached file.
     def fetch_and_store
       releases = if cached?
-        read_from_cache
-      else
-        _fetch_and_store
+                   read_from_cache
+                 else
+                   _fetch_and_store
       end
       Release.wrap_many(releases)
     end
@@ -42,7 +42,7 @@ module GithubReleaseNotes
     def run
       logger.info { 'Fetching Releases from Github...' }
       configure_github_client
-      fetch_releases.map { |r|  r.to_h }
+      fetch_releases.map(&:to_h)
     end
 
     def validate_options!

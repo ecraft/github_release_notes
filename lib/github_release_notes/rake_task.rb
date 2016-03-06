@@ -50,16 +50,16 @@ module GithubReleaseNotes
 
       task @name do
         colors = {
-          "FATAL" => :red,
-          "ERROR" => :red,
-          "WARN"  => :yellow,
-          "INFO"  => :green,
-          "DEBUG" => :white,
+          'FATAL' => :red,
+          'ERROR' => :red,
+          'WARN'  => :yellow,
+          'INFO'  => :green,
+          'DEBUG' => :white
         }
         default_logger = Logger.new($stdout)
-        default_logger.formatter = ->(severity, datetime, progname, message) {
+        default_logger.formatter = lambda { |severity, _datetime, _progname, message|
           if $stdout.tty?
-            colorizer = $stdout.tty? ? colors[severity] : ->(s){s}
+            colorizer = $stdout.tty? ? colors[severity] : ->(s) { s }
             ANSI.send(colors[severity]) { "#{severity}: " } + "#{message}\n"
           else
             "#{severity}: #{message}\n"
@@ -91,13 +91,13 @@ module GithubReleaseNotes
         logger = config.logger
         logger.info { 'Generating GitHub Release Notes...' }
 
-        if cfg[:log_level]
-          logger.level = cfg[:log_level]
-        elsif cfg[:verbose]
-          logger.level = Logger::DEBUG
-        else
-          logger.level = Logger::INFO
-        end
+        logger.level = if cfg[:log_level]
+                         cfg[:log_level]
+                       elsif cfg[:verbose]
+                         Logger::DEBUG
+                       else
+                         Logger::INFO
+                       end
 
         all_releases = GithubReleaseNotes::Fetcher.new(config).fetch_and_store
         releases = all_releases.reject do |r|

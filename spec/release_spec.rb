@@ -3,7 +3,7 @@
 module GithubReleaseNotes
   describe Release do
     let(:body) do
-    <<EOF
+      <<EOF
 ## Notes
 
 * 123
@@ -11,14 +11,14 @@ module GithubReleaseNotes
 * 345
 EOF
     end
-    let(:release) {
+    let(:release) do
       {
         tag_name: 'v1.0.0',
         body: body,
         name: '',
         published_at: '2016-03-06 17:51:45 +0100'
       }
-    }
+    end
 
     it 'conveniently wraps many Hashes with .wrap_many' do
       result = described_class.wrap_many([release])

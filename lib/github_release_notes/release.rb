@@ -56,4 +56,3 @@ module GithubReleaseNotes
     end
   end
 end
-
