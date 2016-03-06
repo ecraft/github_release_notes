@@ -21,6 +21,8 @@ module GithubReleaseNotes
       Release.wrap_many(releases)
     end
 
+    private
+
     def cached?
       File.exist?(CACHE_FILE_NAME)
     end
@@ -36,8 +38,6 @@ module GithubReleaseNotes
         File.open(CACHE_FILE_NAME, 'w') { |f| f.write(JSON.dump(result)) }
       end
     end
-
-    private
 
     def run
       logger.info { 'Fetching Releases from Github...' }
