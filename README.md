@@ -4,6 +4,8 @@ Use the GitHub Releases feature to author end-user-friendly release notes, and k
 
 This tool allows you to publish a long Markdown and HTML document with your releases.
 
+This does the exact opposite of what [github-changelog-generator](https://github.com/skywinder/github-changelog-generator) does.
+
 ## Installation
 
 Add this line to your application's Gemfile, as an ecraft-private gem:
