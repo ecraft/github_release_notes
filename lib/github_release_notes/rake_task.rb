@@ -96,7 +96,11 @@ module GithubReleaseNotes
         end
         releases = config.filter_lambda.call(releases) if config.filter_lambda.respond_to?(:call)
 
-        GithubReleaseNotes::Formatter.new(releases, config).call
+        markdown_formatter = GithubReleaseNotes::MarkdownFormatter.new(releases, config)
+        markdown_formatter.call
+        html_formatter = GithubReleaseNotes::HtmlFormatter.new(releases, config)
+        html_formatter.rendered_markdown = markdown_formatter.rendered_markdown
+        html_formatter.call
 
         logger.info { 'Built GitHub Release Notes.' }
       end
