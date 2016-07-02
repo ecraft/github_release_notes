@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'When you need a separate document for users.'
   spec.homepage      = 'https://github.com/ecraft/github_release_notes'
 
-  spec.metadata['allowed_push_host'] = 'https://gems.fury.io'
+  spec.metadata['allowed_push_host'] = 'https://gem.fury.io/ecraft-gems/'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = 'exe'
