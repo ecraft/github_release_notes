@@ -1,7 +1,6 @@
 require 'pathname'
 module GithubReleaseNotes
   class HtmlFormatter < Formatter
-    attr_reader :rendered_html
     attr_accessor :rendered_markdown
 
     def call
@@ -34,14 +33,9 @@ module GithubReleaseNotes
     end
 
     def format
-      format_releases_in_html
       html_preamble
       html_epilogue
       html_content
-    end
-
-    def format_releases_in_html
-      @rendered_html = Kramdown::Document.new(rendered_markdown, input: 'GFM').to_html
     end
 
     def html_preamble
@@ -55,7 +49,9 @@ module GithubReleaseNotes
     end
 
     def html_content
-      "#{preamble}#{rendered_html}#{epilogue}".force_encoding('UTF-8')
+      body = Kramdown::Document.new(rendered_markdown, input: 'GFM').to_html
+
+      "#{preamble}#{body}#{epilogue}".force_encoding('UTF-8')
     end
   end
 end
