@@ -98,9 +98,10 @@ module GithubReleaseNotes
 
         markdown_formatter = GithubReleaseNotes::MarkdownFormatter.new(releases, config)
         markdown_formatter.call
-        html_formatter = GithubReleaseNotes::HtmlFormatter.new(releases, config)
-        html_formatter.rendered_markdown = markdown_formatter.rendered_markdown
-        html_formatter.call
+
+        GithubReleaseNotes::HtmlFormatter.new(releases, config).tap do |html_formatter|
+          html_formatter.rendered_markdown = markdown_formatter.rendered_markdown
+        end.call
 
         logger.info { 'Built GitHub Release Notes.' }
       end
