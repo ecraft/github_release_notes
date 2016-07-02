@@ -45,10 +45,21 @@ GithubReleaseNotes::RakeTask.new(:release_notes) do |config|
 
   config.html_output = 'release_notes.html'
   config.markdown_output = 'release_notes.md'
+  # This data will be made available to html_full.html.erb
+  config.html_template_data = {
+    title: 'Release Notes for GitHub Release Notes',
+    copyright: 'Every year!',
+    slogan: 'You break it, you buy it!'
+  }
+  # The script will look for these two:
+  #
+  # templatefiles/release_notes_templates/html_full.html.erb
+  # templatefiles/release_notes_templates/release.md.erb
   config.templates_path = 'templatefiles/release_notes_templates'
   config.token = ENV['RELEASE_NOTES_GITHUB_TOKEN']
-  config.log_level = Logger::INFO
-  config.logger = Logger.new('some_output.log')
+  # The regular log is colorful, but can be overridden
+  # config.logger = Logger.new('some_output.log')
+  # config.log_level = Logger::INFO
   config.filter_lambda = ->(rs) {
     rs.select {|r| r[:tag_name] =~ /v/ }
   }

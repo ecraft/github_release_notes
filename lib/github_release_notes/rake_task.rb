@@ -13,8 +13,7 @@ module GithubReleaseNotes
       target_markdown_file
       token
       repo_slug
-      preamble_template_data
-      epilogue_template_data
+      html_template_data
       html_output
       markdown_output
       templates_path
@@ -67,8 +66,7 @@ module GithubReleaseNotes
         cfg = {
           token: ENV['RELEASE_NOTES_GITHUB_TOKEN'],
           repo_slug: '',
-          preamble_template_data: { title: 'Release Notes' },
-          epilogue_template_data: {},
+          html_template_data: { title: 'Release Notes' },
           html_output: @target_html_file,
           markdown_output: @target_markdown_file,
           templates_path: GithubReleaseNotes::Formatter::DEFAULT_TEMPLATE_PATH,
@@ -96,7 +94,9 @@ module GithubReleaseNotes
         end
         releases = config.filter_lambda.call(releases) if config.filter_lambda.respond_to?(:call)
 
-        GithubReleaseNotes::Formatter.new(releases, config).call
+        GithubReleaseNotes::MarkdownFormatter.new(releases, config).call
+
+        GithubReleaseNotes::HtmlFormatter.new(releases, config).call
 
         logger.info { 'Built GitHub Release Notes.' }
       end
