@@ -6,7 +6,7 @@ module GithubReleaseNotes
 
     DEFAULT_TEMPLATE_PATH = File.join(File.dirname(__FILE__), '../../templates')
 
-    attr_reader :releases, :preamble, :epilogue, :config
+    attr_reader :releases, :config
 
     def_delegator :config, :logger
 

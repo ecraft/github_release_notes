@@ -9,5 +9,6 @@ GithubReleaseNotes::RakeTask.new(:ghn_test) do |c|
   c.html_output = 'tmp/output/active_record_upsert.html'
   c.markdown_output = 'tmp/output/active_record_upsert.md'
   c.verbose = true
+  c.html_template_data = { title: 'Active Record Upsert Releases!' }
 end
 task default: ['tmp/output', :ghn_test]

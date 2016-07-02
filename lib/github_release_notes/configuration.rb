@@ -13,12 +13,8 @@ module GithubReleaseNotes
       end
     end
 
-    def preamble_template_data
-      fetch(:preamble_template_data)
-    end
-
-    def epilogue_template_data
-      fetch(:epilogue_template_data)
+    def html_template_data
+      fetch(:html_template_data)
     end
 
     def html_output

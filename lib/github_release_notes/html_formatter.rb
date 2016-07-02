@@ -32,25 +32,9 @@ module GithubReleaseNotes
     end
 
     def format
-      html_preamble
-      html_epilogue
-      html_content
-    end
-
-    def html_preamble
-      data = config.preamble_template_data
-      @preamble = ERB.new(File.read(templates_path + 'html_preamble.html.erb')).result(binding)
-    end
-
-    def html_epilogue
-      data = config.epilogue_template_data
-      @epilogue = ERB.new(File.read(templates_path + 'html_epilogue.html.erb')).result(binding)
-    end
-
-    def html_content
-      body = Kramdown::Document.new(rendered_markdown, input: 'GFM').to_html
-
-      "#{preamble}#{body}#{epilogue}".force_encoding('UTF-8')
+      rendered_releases = Kramdown::Document.new(rendered_markdown, input: 'GFM').to_html
+      html_template_data = config.html_template_data
+      ERB.new(File.read(templates_path + 'html_full.html.erb')).result(binding).force_encoding('UTF-8')
     end
   end
 end
