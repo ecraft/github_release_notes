@@ -1,7 +1,6 @@
 require 'rake'
 require 'rake/tasklib'
 require 'github_release_notes'
-require 'logger'
 
 module GithubReleaseNotes
   class RakeTask < ::Rake::TaskLib
@@ -59,7 +58,6 @@ module GithubReleaseNotes
         default_logger = Logger.new($stdout)
         default_logger.formatter = lambda { |severity, _datetime, _progname, message|
           if $stdout.tty?
-            colorizer = $stdout.tty? ? colors[severity] : ->(s) { s }
             ANSI.send(colors[severity]) { "#{severity}: " } + "#{message}\n"
           else
             "#{severity}: #{message}\n"
@@ -76,7 +74,8 @@ module GithubReleaseNotes
           templates_path: GithubReleaseNotes::Formatter::DEFAULT_TEMPLATE_PATH,
           skipped_release_prefixes: [],
           logger: default_logger,
-          filter_lambda: ->(rs) { rs }
+          filter_lambda: ->(rs) { rs },
+          verbose: false
         }
 
         # Overrides from the Rake config block from the user
@@ -91,19 +90,11 @@ module GithubReleaseNotes
         logger = config.logger
         logger.info { 'Generating GitHub Release Notes...' }
 
-        logger.level = if cfg[:log_level]
-                         cfg[:log_level]
-                       elsif cfg[:verbose]
-                         Logger::DEBUG
-                       else
-                         Logger::INFO
-                       end
-
         all_releases = GithubReleaseNotes::Fetcher.new(config).fetch_and_store
         releases = all_releases.reject do |r|
           config.skipped_release_prefixes.any? { |prefix| r[:tag_name].start_with?(prefix) }
         end
-        releases = filter_lambda.call(releases) if filter_lambda.respond_to?(:call)
+        releases = config.filter_lambda.call(releases) if config.filter_lambda.respond_to?(:call)
 
         GithubReleaseNotes::Formatter.new(releases, config).call
 

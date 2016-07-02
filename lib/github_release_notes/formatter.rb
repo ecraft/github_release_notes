@@ -1,3 +1,4 @@
+require 'pathname'
 module GithubReleaseNotes
   class Formatter
     DEFAULT_TEMPLATE_PATH = File.join(File.dirname(__FILE__), '../../templates')
@@ -22,7 +23,8 @@ module GithubReleaseNotes
       end
 
       raise Error, ANSI.red {
-        ':html_output or :markdown_output must be set to writable paths'
+        ":html_output or :markdown_output must be set to writable paths." \
+        ". :html_output: #{config.html_output.inspect} :markdown_output: #{config.markdown_output.inspect}"
       } unless can_write_output
     end
 
