@@ -1,3 +1,4 @@
+require 'pathname'
 module GithubReleaseNotes
   class Formatter
     DEFAULT_TEMPLATE_PATH = File.join(File.dirname(__FILE__), '../../templates')

@@ -1,4 +1,6 @@
 require 'delegate'
+require 'logger'
+
 module GithubReleaseNotes
   class Configuration < SimpleDelegator
     def token
@@ -40,7 +42,23 @@ module GithubReleaseNotes
     end
 
     def logger
-      fetch(:logger)
+      fetch(:logger) {
+        raise ArgumentError, 'Configuration requires a :logger'
+      }.tap { |l| l.level = log_level }
+    end
+
+    def log_level
+      if self[:log_level]
+        self[:log_level]
+      elsif self[:verbose]
+        Logger::DEBUG
+      else
+        Logger::INFO
+      end
+    end
+
+    def filter_lambda
+      fetch(:filter_lambda)
     end
   end
 end
