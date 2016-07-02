@@ -23,8 +23,7 @@ module GithubReleaseNotes
 
     def must_skip_rendering!
       if rendered_markdown.blank?
-        logger.debug "No Markdown inserted. Can not render HTML output."
-        true
+        raise Error, ANSI.red { 'No Markdown given. Can not render HTML.' }
       elsif !configured_to_write_to(config.html_output)
         true
       else
