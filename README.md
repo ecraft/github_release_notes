@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/ecraft/github_release_notes.svg?token=35kCpfKGskZKKBMy5SCM&branch=master)](https://travis-ci.com/ecraft/github_release_notes)
+
 # GithubReleaseNotes
 
 Use the GitHub Releases feature to author end-user-friendly release notes, and keep the developer-facing gory details elsewhere.
