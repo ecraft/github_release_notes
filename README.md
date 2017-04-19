@@ -22,17 +22,13 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install github_release_notes
-
 ## Usage
 
-You set this up using a GitHub token and a custom Rake task.
+You set this up using **a GitHub token** and a **custom Rake task**.
 
 ### Token
 
-Add an environment variable `RELEASE_NOTES_GITHUB_TOKEN` with a GitHub token with repo access.
+Add an environment variable `RELEASE_NOTES_GITHUB_TOKEN` with a GitHub token with `repo` access.
 
 Read more at https://github.com/skywinder/github-changelog-generator#github-token
 
