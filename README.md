@@ -13,7 +13,9 @@ This does the exact opposite of what [github-changelog-generator](https://github
 Add this line to your application's Gemfile, as an ecraft-private gem:
 
 ```ruby
-gem 'github_release_notes'
+group :development do
+  gem 'github_release_notes', '>= 0.2.1', source: 'https://gem.fury.io/ecraft-gems/'
+end
 ```
 
 And then execute:
