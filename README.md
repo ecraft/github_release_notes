@@ -22,6 +22,13 @@ And then execute:
 
     $ bundle
 
+Add `.github_releases.json` to your `.gitignore` file:
+
+```shell
+$ git ignore .github_releases.json
+```
+
+
 ## Usage
 
 You set this up using **a GitHub token** and a **custom Rake task**.
